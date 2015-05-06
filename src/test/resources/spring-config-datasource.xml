@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd"
+	default-autowire="byName">
+
+	<description>datasource configure</description>
+
+	<bean id="parentDataSource" class="org.apache.commons.dbcp.BasicDataSource">
+		<property name="maxWait" value="3000" />
+		<property name="validationQuery" value="SELECT 1" />
+		<property name="testOnBorrow" value="false" />
+		<property name="testWhileIdle" value="true" />
+		<property name="initialSize" value="100" />
+		<property name="maxActive" value="200"/>
+		<property name="minIdle" value="10"/>
+		<property name="maxIdle" value="50"/>
+		<property name="removeAbandoned" value="true"/>
+		<property name="removeAbandonedTimeout" value="30"/> 
+		<property name="timeBetweenEvictionRunsMillis" value="30000" />
+		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
+	</bean>
+
+
+	<bean id="dataSource" parent="parentDataSource">
+		<property name="url" value="jdbc:mysql://127.0.0.1:3306/db_test?useUnicode=true&amp;characterEncoding=UTF-8" />
+		<property name="username" value="root" />
+		<property name="password" value="root" />
+	</bean>
+
+	<bean id="moduleTable" class="com.plugin.server.reduce.object.ModuleTable">
+		<property name="tableName" value="tb_server_reduce" />
+		<property name="primaryKey" value="id" />
+		<property name="moduleName" value="module_name" />
+		<property name="moduleSwitch" value="module_switch" />
+		<property name="moduleDepict" value="module_depict" />
+		<property name="moduleToken" value="module_token" />
+	</bean>
+
+	<bean id="moduleReduceClient" class="com.plugin.server.reduce.ModuleReduceFacotyBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="moduleTable" ref="moduleTable" />
+	</bean>
+
+</beans>
