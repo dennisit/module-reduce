@@ -3,15 +3,15 @@ module-reduce component
 
 [module-reduce SQL]
 
-		CREATE TABLE `plus_server_reduce` (
-			  `id` bigint(20) NOT NULL AUTO_INCREMENT,
-			  `module_name` varchar(40) COLLATE utf8_bin NOT NULL COMMENT '服务模块',
-			  `module_switch` tinyint(4) NOT NULL DEFAULT '0' COMMENT '是否降级,1降级0不降级',
-			  `module_depict` varchar(100) COLLATE utf8_bin DEFAULT NULL COMMENT '业务描述',
-			  `module_token` varchar(150) COLLATE utf8_bin DEFAULT NULL COMMENT '认证key',
-			  PRIMARY KEY (`id`),
-			  UNIQUE KEY `module_name` (`module_name`)
-		) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+		CREATE TABLE `tb_module_reduce` (
+              `id` bigint(20) NOT NULL AUTO_INCREMENT,
+              `module_name` varchar(40) COLLATE utf8_bin NOT NULL COMMENT '服务模块',
+              `module_switch` tinyint(4) NOT NULL DEFAULT '0' COMMENT '是否降级,1降级0不降级',
+              `module_depict` varchar(100) COLLATE utf8_bin DEFAULT '' COMMENT '业务描述',
+              `module_token` varchar(150) COLLATE utf8_bin NOT NULL DEFAULT '' COMMENT '认证key',
+              PRIMARY KEY (`id`),
+              UNIQUE KEY `module_name` (`module_name`)
+        ) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 
 [How to Use]
@@ -47,7 +47,7 @@ module-reduce component
 	</bean>
 
 	<bean id="moduleTable" class="com.plugin.server.reduce.object.ModuleTable">
-		<property name="tableName" value="plus_server_reduce" />
+		<property name="tableName" value="tb_module_reduce" />
 		<property name="primaryKey" value="id" />
 		<property name="moduleName" value="module_name" />
 		<property name="moduleSwitch" value="module_switch" />
