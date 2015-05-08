@@ -120,7 +120,8 @@ public class SQLBuilder {
         if(null != condition){
             builder.append(buildQueryWhere(moduleTable, condition));
         }
-        return builder.append(" LIMIT ?,?").append(" ORDER BY ").append(moduleTable.getPrimaryKey()).append(" DESC").toString();
+        builder.append(" ORDER BY ").append(moduleTable.getPrimaryKey()).append(" DESC ");
+        return builder.append(" LIMIT ?,?").toString();
     }
 
 
