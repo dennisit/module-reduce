@@ -107,7 +107,7 @@ public class SQLBuilder {
     public static String buildQueryAll(ModuleTable moduleTable){
         return new StringBuilder("SELECT * FROM ")
                 .append(moduleTable.getTableName())
-                .toString();
+                .append(" ORDER BY ").append(moduleTable.getPrimaryKey()).append(" DESC").toString();
     }
 
     /**
@@ -120,7 +120,7 @@ public class SQLBuilder {
         if(null != condition){
             builder.append(buildQueryWhere(moduleTable, condition));
         }
-        return builder.append(" LIMIT ?,? ").toString();
+        return builder.append(" LIMIT ?,?").append(" ORDER BY ").append(moduleTable.getPrimaryKey()).append(" DESC").toString();
     }
 
 
