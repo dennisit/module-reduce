@@ -66,7 +66,7 @@ public class ModuleReduceClient {
             statement.setString( 3, moduleObject.getModuleDepict() );
             statement.setString( 4, moduleObject.getModuleToken() );
             int resultSet = statement.executeUpdate();
-            if(resultSet > 1){
+            if(resultSet > 0){
                 return true;
             }
         } catch (Exception e) {
@@ -149,7 +149,10 @@ public class ModuleReduceClient {
         try {
             connection = this.dataSource.getConnection();
             //SELECT module_switch FROM tb_module_switch WHERE module_name =  ? AND module_token = ?
-            statement = connection.prepareStatement(SQLBuilder.buildQueryModuleToken(moduleTable));
+            String sql = SQLBuilder.buildQueryModuleToken(moduleTable);
+            System.out.println(sql);
+            LOG.info("[SQL] " + sql);
+            statement = connection.prepareStatement(sql);
             statement.setString(1,moduleName);
             statement.setString(2,moduleToken);
             resultSet = statement.executeQuery();
@@ -201,7 +204,10 @@ public class ModuleReduceClient {
         ResultSet resultSet = null;
         try {
             connection = this.dataSource.getConnection();
-            statement = connection.prepareStatement(SQLBuilder.buildQueryPager(moduleTable,queryCondition));
+            String sql = SQLBuilder.buildQueryPager(moduleTable,queryCondition);
+            System.out.println(sql);
+            LOG.info("[SQL] " + sql);
+            statement = connection.prepareStatement(sql);
             statement.setInt(1, (pageNow-1)*pageSize);
             statement.setInt(2,pageSize);
             resultSet = statement.executeQuery();
@@ -233,7 +239,10 @@ public class ModuleReduceClient {
         ResultSet resultSet = null;
         try {
             connection = this.dataSource.getConnection();
-            statement = connection.prepareStatement(SQLBuilder.buildQueryTotal(moduleTable, queryCondition));
+            String sql = SQLBuilder.buildQueryTotal(moduleTable, queryCondition);
+            System.out.println(sql);
+            LOG.info("[SQL] " + sql);
+            statement = connection.prepareStatement(sql);
             resultSet = statement.executeQuery();
             if(resultSet.next()){
                 return resultSet.getInt(1);
@@ -260,8 +269,11 @@ public class ModuleReduceClient {
         try {
             connection = this.dataSource.getConnection();
             //UPDATE tb_module_switch SET module_switch = ? WHERE module_name = ? AND module_token = ?
-            statement = connection.prepareStatement(SQLBuilder.buildUpdateSwitch(moduleTable));
-            statement.setInt(1,switchStatus== Constants.SwitchStatus.OPEN ? 1 : 0);
+            String sql = SQLBuilder.buildUpdateSwitch(moduleTable);
+            System.out.println(sql);
+            LOG.info("[SQL] " + sql);
+            statement = connection.prepareStatement(sql);
+            statement.setInt(1,switchStatus.getValue());
             statement.setString(2,moduleName);
             statement.setString(3,moduleToken);
             resultSet = statement.executeUpdate();
@@ -290,7 +302,10 @@ public class ModuleReduceClient {
         try {
             connection = this.dataSource.getConnection();
             // SELECT * FROM tb_module_switch WHERE module_name = ?
-            statement = connection.prepareStatement(SQLBuilder.buildQueryOnlyModule(moduleTable));
+            String sql = SQLBuilder.buildQueryOnlyModule(moduleTable);
+            System.out.println(sql);
+            LOG.info("[SQL] " + sql);
+            statement = connection.prepareStatement(sql);
             statement.setString(1, moduleName);
             resultSet = statement.executeQuery();
             while(resultSet.next()){
